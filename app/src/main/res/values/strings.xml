@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">My Applicatio</string>
+    <string name="login">login</string>
+    <string name="email">Email</string>
+    <string name="password">password</string>
+    <string name="register">register</string>
+    <string name="registered">Registered?</string>
+    <string name="click_to_login">click to login</string>
+    <string name="Register">Register</string>
+    <string name="click_to_register">click to register</string>
+    <string name="signin">Signin</string>
+    <string name="welcome">Welcome!</string>
+    <string name="logout">Logout</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
