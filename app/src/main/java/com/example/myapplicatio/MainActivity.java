@@ -3,6 +3,8 @@ package com.example.myapplicatio;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -83,9 +85,7 @@ storageReference = FirebaseStorage.getInstance().getReference();
         btnSubmit = findViewById(R.id.btnSubmit);
 
         btnImage = findViewById(R.id.btnImage);
-        uploadImage = findViewById(R.id.uploadImage);
         imageView = findViewById(R.id.imageView);
-
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
 
@@ -99,6 +99,7 @@ storageReference = FirebaseStorage.getInstance().getReference();
                 titleOf = String.valueOf(title.getText());
                 descriptionOf = String.valueOf(description.getText());
 
+
                 HashMap<String,Object> data = new HashMap<>();
                 data.put("title", titleOf);
                 data.put("description", descriptionOf);
@@ -107,65 +108,39 @@ storageReference = FirebaseStorage.getInstance().getReference();
                     Toast.makeText(MainActivity.this,"Enter title first",Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(descriptionOf)){
                     Toast.makeText(MainActivity.this,"Enter Description first",Toast.LENGTH_SHORT).show();
-                }else if (!(titleOf.isEmpty() && descriptionOf.isEmpty())){
+                }else if (imageView.getDrawable()==null){
+                    Toast.makeText(MainActivity.this,"Select image first",Toast.LENGTH_SHORT).show();
+                } else if (!(titleOf.isEmpty() && descriptionOf.isEmpty() && imageView.getDrawable()!=null)){
+                    uploadImages(imageUri);
                     db.collection("data")
-                            .add(data)
-                            .addOnSuccessListener(new OnSuccessListener() {
-                                @Override
-                                public void onSuccess(Object o) {
-                                    Toast.makeText(MainActivity.this,"Submitted successfully",Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this,"Failed to submit",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
+                        .add(data)
+                        .addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                Toast.makeText(MainActivity.this,"Submitted successfully",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(MainActivity.this,"Failed to submit",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
 
-            }
-        });
+                }
+            });
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
+                intent.setType("image/*");
                 activityResultLauncher.launch(intent);
 
             }
         });
-uploadImage.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        uploadImages(imageUri);
-    }
-});
-
-
-
-
-
-
-//        db.collection("data")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//
-//                            }
-//                        } else {
-//
-//                        }
-//                    }
-//                });
-
-
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         btnLogOut = findViewById(R.id.btnLogOut);
         txtUser = findViewById(R.id.txtUser);
 

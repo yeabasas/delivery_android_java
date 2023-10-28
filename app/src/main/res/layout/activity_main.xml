@@ -79,14 +79,6 @@
             android:layout_marginTop="12dp"
             android:text="@string/select_image"
             android:textSize="25sp"/>
-        <Button
-            android:id="@+id/uploadImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="12dp"
-            android:text="@string/upload"
-            android:textSize="25sp"/>
 
         <Button
             android:id="@+id/btnSubmit"
